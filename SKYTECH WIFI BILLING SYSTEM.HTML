@@ -1,0 +1,436 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKYTECH NETWORK - WiFi Billing</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #006d77, #83c5be);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 35px rgba(0,0,0,.25);
+        }
+
+        header {
+            background: #023047;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            font-size: 34px;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            margin-top: 8px;
+            color: #caf0f8;
+        }
+
+        .mpesa-bar {
+            background: #25a244;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .title {
+            text-align: center;
+            color: #023047;
+            margin-bottom: 25px;
+        }
+
+        .packages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+        }
+
+        .package {
+            border: 2px solid #caf0f8;
+            border-radius: 15px;
+            padding: 25px 15px;
+            text-align: center;
+            background: #f8ffff;
+            transition: .3s;
+        }
+
+        .package:hover {
+            transform: translateY(-5px);
+            border-color: #00b4d8;
+            box-shadow: 0 8px 20px rgba(0,0,0,.12);
+        }
+
+        .package h2 {
+            color: #0077b6;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #023047;
+            margin-bottom: 15px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            padding: 12px 25px;
+            font-size: 16px;
+        }
+
+        .select-btn {
+            background: #0077b6;
+            color: white;
+        }
+
+        .select-btn:hover {
+            background: #023047;
+        }
+
+        .payment-box {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: #e8f8f5;
+            border-radius: 15px;
+            border: 2px solid #83c5be;
+            text-align: center;
+        }
+
+        .payment-box h2 {
+            color: #023047;
+            margin-bottom: 15px;
+        }
+
+        .selected {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0077b6;
+            margin: 10px;
+        }
+
+        .amount {
+            font-size: 30px;
+            font-weight: bold;
+            color: #25a244;
+            margin: 10px;
+        }
+
+        input {
+            width: 100%;
+            max-width: 400px;
+            padding: 14px;
+            margin: 10px auto;
+            display: block;
+            border: 1px solid #aaa;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #0077b6;
+        }
+
+        .pay-btn {
+            background: #25a244;
+            color: white;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .pay-btn:hover {
+            background: #1b7f36;
+        }
+
+        .message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .info {
+            background: #dff6ff;
+            color: #005f73;
+        }
+
+        .error {
+            background: #ffe5e5;
+            color: #b00020;
+        }
+
+        footer {
+            background: #023047;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>SKYTECH NETWORK</h1>
+        <p>Fast • Reliable • Affordable Wi-Fi</p>
+    </header>
+
+    <div class="mpesa-bar">
+        PAY WITH M-PESA
+    </div>
+
+    <div class="content">
+
+        <h2 class="title">SELECT YOUR WI-FI PACKAGE</h2>
+
+        <div class="packages">
+
+            <div class="package">
+                <h2>1 HOUR</h2>
+                <div class="price">KSh 10</div>
+                <button class="select-btn"
+                        onclick="selectPackage('1 Hour',10)">
+                    SELECT
+                </button>
+            </div>
+
+            <div class="package">
+                <h2>12 HOURS</h2>
+                <div class="price">KSh 20</div>
+                <button class="select-btn"
+                        onclick="selectPackage('12 Hours',20)">
+                    SELECT
+                </button>
+            </div>
+
+            <div class="package">
+                <h2>24 HOURS</h2>
+                <div class="price">KSh 30</div>
+                <button class="select-btn"
+                        onclick="selectPackage('24 Hours',30)">
+                    SELECT
+                </button>
+            </div>
+
+            <div class="package">
+                <h2>3 DAYS</h2>
+                <div class="price">KSh 80</div>
+                <button class="select-btn"
+                        onclick="selectPackage('3 Days',80)">
+                    SELECT
+                </button>
+            </div>
+
+        </div>
+
+        <div class="payment-box" id="paymentBox">
+
+            <h2>Complete M-Pesa Payment</h2>
+
+            <p>Package:</p>
+
+            <div class="selected" id="selectedPackage">
+                -
+            </div>
+
+            <p>Amount:</p>
+
+            <div class="amount">
+                KSh <span id="selectedPrice">0</span>
+            </div>
+
+            <p>Enter your M-Pesa phone number</p>
+
+            <input
+                type="tel"
+                id="phone"
+                placeholder="07XXXXXXXX"
+                maxlength="12"
+            >
+
+            <button class="pay-btn"
+                    id="payButton"
+                    onclick="payWithMpesa()">
+                PAY WITH M-PESA
+            </button>
+
+            <div class="message info" id="message">
+                Check your phone for the M-Pesa prompt.
+                Enter your PIN in the M-Pesa prompt.
+            </div>
+
+            <div class="message error" id="errorMessage"></div>
+
+        </div>
+
+    </div>
+
+    <footer>
+        © 2026 SKYTECH NETWORK | Wi-Fi Billing System
+    </footer>
+
+</div>
+
+<script>
+
+let selectedPackage = "";
+let selectedPrice = 0;
+
+function selectPackage(packageName, price) {
+
+    selectedPackage = packageName;
+    selectedPrice = price;
+
+    document.getElementById("selectedPackage").innerText =
+        packageName;
+
+    document.getElementById("selectedPrice").innerText =
+        price;
+
+    document.getElementById("paymentBox").style.display =
+        "block";
+
+    document.getElementById("paymentBox").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function payWithMpesa() {
+
+    const phone = document.getElementById("phone").value.trim();
+
+    const message = document.getElementById("message");
+    const error = document.getElementById("errorMessage");
+    const button = document.getElementById("payButton");
+
+    message.style.display = "none";
+    error.style.display = "none";
+
+    if (phone === "") {
+        error.innerText =
+            "Please enter your M-Pesa phone number.";
+        error.style.display = "block";
+        return;
+    }
+
+    /*
+       Accept:
+       0712345678
+       0112345678
+       254712345678
+       254112345678
+    */
+
+    const validPhone =
+        /^(07|01)\d{8}$|^254(7|1)\d{8}$/;
+
+    if (!validPhone.test(phone)) {
+        error.innerText =
+            "Please enter a valid Kenyan phone number.";
+        error.style.display = "block";
+        return;
+    }
+
+    button.disabled = true;
+    button.innerText = "PROCESSING...";
+
+    message.innerText =
+        "Sending M-Pesa payment request. Please wait...";
+    message.style.display = "block";
+
+    fetch("mpesa.php", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            phone: phone,
+            amount: selectedPrice,
+            package: selectedPackage
+        })
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        button.disabled = false;
+        button.innerText = "PAY WITH M-PESA";
+
+        if (data.success) {
+
+            message.innerText =
+                "M-Pesa prompt sent! Check your phone and enter your M-Pesa PIN.";
+
+            message.style.display = "block";
+
+        } else {
+
+            message.style.display = "none";
+
+            error.innerText =
+                data.message ||
+                "Unable to start payment.";
+
+            error.style.display = "block";
+        }
+
+    })
+
+    .catch(() => {
+
+        button.disabled = false;
+        button.innerText = "PAY WITH M-PESA";
+
+        message.style.display = "none";
+
+        error.innerText =
+            "Unable to connect to the payment server.";
+
+        error.style.display = "block";
+    });
+}
+
+</script>
+
+</body>
+</html>
+```
